@@ -938,16 +938,6 @@ void restore_crux_data_bootstrap(Crux *crux, char *restart_file, int rollback_co
 void restore_crux_data(Crux *crux)
 {
    state->restore_checkpoint(crux);
-#ifdef HAVE_HDF5
+   
    crux->restore_end();
-#else
-#ifndef HAVE_MPI
-    crux->restore_end();
-#else   
-   MPI_Finalize();
-   exit(0);
-#endif
-#endif
 }
-
-

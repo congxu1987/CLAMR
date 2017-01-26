@@ -289,7 +289,7 @@ void Crux::store_field_header(const char *name, int name_size){
 #ifdef HAVE_MPI
    assert(name != NULL);
    MPI_Status status;
-   MPI_File_write_shared(mpi_store_fp, (void *)name, name_size, MPI_CHAR, &status);
+   MPI_File_write_ordered(mpi_store_fp, (void *)name, name_size, MPI_CHAR, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -484,7 +484,7 @@ void Crux::store_int_array(int *int_array, size_t nelem)
 #ifdef HAVE_MPI
    assert(int_array != NULL);
    MPI_Status status;
-   MPI_File_write_shared(mpi_store_fp, int_array, (int)nelem, MPI_INT, &status);
+   MPI_File_write_ordered(mpi_store_fp, int_array, (int)nelem, MPI_INT, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -515,7 +515,7 @@ void Crux::store_double_array(double *double_array, size_t nelem)
 #ifdef HAVE_MPI
    assert(double_array != NULL);
    MPI_Status status;
-   MPI_File_write_shared(mpi_store_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
+   MPI_File_write_ordered(mpi_store_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -534,7 +534,7 @@ void Crux::store_replicated_int_array(int *int_array, size_t nelem)
 #ifdef HAVE_MPI
    assert(int_array != NULL);
    MPI_Status status;
-   MPI_File_write_shared(mpi_store_fp, int_array, (int)nelem, MPI_INT, &status);
+   MPI_File_write_ordered(mpi_store_fp, int_array, (int)nelem, MPI_INT, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -553,7 +553,7 @@ void Crux::store_replicated_double_array(double *double_array, size_t nelem)
 #ifdef HAVE_MPI
    assert(double_array != NULL);
    MPI_Status status;
-   MPI_File_write_shared(mpi_store_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
+   MPI_File_write_ordered(mpi_store_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -573,9 +573,9 @@ void Crux::store_distributed_int_array(int *int_array, size_t nelem, int flags)
    assert(int_array != NULL);
    //MPI_Datatype datatype = get_crux_datatype(DISTRIBUTED_INT_DATA);
    MPI_Status status;
-   //MPI_File_write_shared(mpi_store_fp, int_array, nelem, MPI_INT, &status);
+   //MPI_File_write_ordered(mpi_store_fp, int_array, nelem, MPI_INT, &status);
    printf("writing crux data type 8\n");
-   //MPI_File_write_shared(mpi_store_fp, int_array, 1, crux_datatype[8], &status);
+   //MPI_File_write_ordered(mpi_store_fp, int_array, 1, crux_datatype[8], &status);
 #ifdef DEBUG_RESTORE_VALS
    int count;
    MPI_Get_count(&status, MPI_INT, &count);
@@ -587,7 +587,7 @@ void Crux::store_distributed_double_array(double *double_array, size_t nelem, in
    assert(double_array != NULL);
    //MPI_Datatype datatype = get_crux_datatype(DISTRIBUTED_DOUBLE_DATA);
    MPI_Status status;
-   //MPI_File_write_shared(mpi_store_fp, double_array, nelem, datatype, &status);
+   //MPI_File_write_ordered(mpi_store_fp, double_array, nelem, datatype, &status);
 #ifdef DEBUG_RESTORE_VALS
    int count;
    MPI_Get_count(&status, MPI_DOUBLE_PRECISION, &count);
@@ -756,7 +756,7 @@ void Crux::restore_field_header(char *name, int name_size)
 #ifdef HAVE_MPI
    assert(name != NULL);
    MPI_Status status;
-   MPI_File_read_shared(mpi_restore_fp, name, name_size, MPI_CHAR, &status);
+   MPI_File_read_ordered(mpi_restore_fp, name, name_size, MPI_CHAR, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -817,7 +817,7 @@ int *Crux::restore_int_array(int *int_array, size_t nelem)
 #ifdef HAVE_MPI
    assert(int_array != NULL);
    MPI_Status status;
-   MPI_File_read_shared(mpi_restore_fp, int_array, (int)nelem, MPI_INT, &status);
+   MPI_File_read_ordered(mpi_restore_fp, int_array, (int)nelem, MPI_INT, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -856,7 +856,7 @@ double *Crux::restore_double_array(double *double_array, size_t nelem)
 {
 #ifdef HAVE_MPI
    MPI_Status status;
-   MPI_File_read_shared(mpi_restore_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
+   MPI_File_read_ordered(mpi_restore_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -878,7 +878,7 @@ int *Crux::restore_replicated_int_array(int *int_array, size_t nelem)
 #ifdef HAVE_MPI
    assert(int_array != NULL);
    MPI_Status status;
-   MPI_File_read_shared(mpi_restore_fp, int_array, (int)nelem, MPI_INT, &status);
+   MPI_File_read_ordered(mpi_restore_fp, int_array, (int)nelem, MPI_INT, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -899,7 +899,7 @@ double *Crux::restore_replicated_double_array(double *double_array, size_t nelem
 {
 #ifdef HAVE_MPI
    MPI_Status status;
-   MPI_File_read_shared(mpi_restore_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
+   MPI_File_read_ordered(mpi_restore_fp, double_array, (int)nelem, MPI_DOUBLE, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -922,7 +922,7 @@ int *Crux::restore_distributed_int_array(int *int_array, size_t nelem, int flags
    assert(int_array != NULL);
    //MPI_Datatype datatype = get_crux_datatype(DISTRIBUTED_INT_DATA);
    MPI_Status status;
-   //MPI_File_read_shared(mpi_restore_fp, int_array, (int)nelem, datatype, &status);
+   //MPI_File_read_ordered(mpi_restore_fp, int_array, (int)nelem, datatype, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
@@ -937,7 +937,7 @@ double *Crux::restore_distributed_double_array(double *double_array, size_t nele
 {
    //MPI_Datatype datatype = get_crux_datatype(DISTRIBUTED_DOUBLE_DATA);
    MPI_Status status;
-   //MPI_File_read_shared(mpi_restore_fp, double_array, (int)nelem, datatype, &status);
+   //MPI_File_read_ordered(mpi_restore_fp, double_array, (int)nelem, datatype, &status);
    MPI_Barrier(MPI_COMM_WORLD);
 #ifdef DEBUG_RESTORE_VALS
    int count;
